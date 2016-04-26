@@ -36,6 +36,11 @@ footer {
 	if(isset($_GET["i"]))
 		if($_GET["i"]==6)
 			include "galerie.php";
+
+//benutzer
+	if(isset($_GET["i"]))
+		if($_GET["i"]==7)
+			include "benutzer.php";
 		
 		
 if(isset($_POST["x"]) && isset($_POST["y"]))
@@ -70,19 +75,11 @@ if(isset($_POST["x"]) && isset($_POST["y"]))
 	 <img src="icongallery2.png" alt="galerie" height="42" width="42"> 
 	</a>
 	</div>
-	
-	
-<?php // Grafik initialisieren 
-//$im = ImageCreate (200, 200);
-// Farben definieren 
-//$bgcolor = imagecolorallocate($im, 200, 200, 200); 
-//$hellrot = imagecolorallocate($im, 255, 0, 0);  
-// grafische Elemente und Text zeichnen 
-//imagefilledellipse($im, 100, 120, 120, 30, $hellrot);  
-// fertiges PNG-Bild erzeugen und an den Browser schicken 
-//imagepng($im);  
-// Bilddaten aus dem Speicher entfernen 
-//imagedestroy($im); ?>
+	<div id="benutzer" class="draggable">
+	<a href=index.php?i=7>
+	<img src="benutzer_318-52803.jpg" alt="benutzer" height="42" width="42"> 
+	</a>
+	</div>
 
 	
 	<footer>

@@ -40,6 +40,9 @@
 
 
 <?php
+	$username=false;
+	$password=false;
+
 	include "login_functions.php";
 	if(isset($_GET["i"]))
 		if($_GET["i"]==4)
@@ -56,27 +59,20 @@
 	}
 	else
 	{
-		$username=false;
-		$password=false;
 	}
 
 	if (isset($_SESSION["username"]) || isset($_COOKIE["username"])|| authenticateuser($username, $password))
 		{
-			$_SESSION["username"]="1";
+			$_SESSION["username"]=$username;
 			if(isset($_POST["remember"]))
 			{
-				setcookie("username", "1", time()+3600*24*365);
+				setcookie("username", $username, time()+3600*24*365);
 			}
 			include "desktop.php";
 		}
 	else		{			
 			include "login.php";
-		}
-		
-	
-
-
-	
+		}	
 
 ?>
 </html>

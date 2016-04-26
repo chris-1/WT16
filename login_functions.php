@@ -70,7 +70,7 @@ function ldap_anmeldung($loginname, $loginpw)
 			if(ldap_anmeldung($user, $password))
 			{
 				return true;
-			}
+			}/*
 			elseif($user == "1" && $password == "1")
 			{
 				return true;
@@ -78,6 +78,22 @@ function ldap_anmeldung($loginname, $loginpw)
 			else
 			{
 				return false;
+			}*/
+			else
+			{
+				 $users = new mysqli ('localhost','root','','neuedb');
+				 $result = $users->query('Select * from user');
+
+				 while($z= $result->fetch_object()) 
+				 	{
+						if($user == $z->username && $password == $z->pwd)
+						{
+							return true;
+						}
+				 	} 
+				{
+					return false;
+				}
 			}
 		}
 

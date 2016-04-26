@@ -1,5 +1,5 @@
 
-	<style>
+<style>
 
 
 #startdiv {
@@ -13,9 +13,13 @@
 	z-index: 5;
 }
 
-    </style>
+</style>
 	
 <div id=startdiv>
+<?php
+
+	//echo $user;
+ ?>
 	
 
 </div>
