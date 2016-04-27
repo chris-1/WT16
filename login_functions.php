@@ -86,7 +86,7 @@ function ldap_anmeldung($loginname, $loginpw)
 
 				 while($z= $result->fetch_object()) 
 				 	{
-						if($user == $z->username && $password == $z->pwd)
+						if($user == $z->username && md5($password) == $z->pwd)
 						{
 							return true;
 						}

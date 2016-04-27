@@ -37,7 +37,8 @@ body {
 			<br>
 		</table>
 		
-			<input type="submit">	
+			<input type="submit" name="action" value="login">	
+			<input type="submit" name="action" value="register">	
 		</form>
 		</div>
 	</body>
