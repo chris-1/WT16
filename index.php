@@ -1,4 +1,4 @@
-<?php session_start() ?>
+<?php session_start(); ?>
 <!doctype html>
 
 
@@ -56,14 +56,19 @@
 	{
 		$username=$_POST["Benutzername"];
 		$password=$_POST["Passwort"];
+		//echo "<script type='text/javascript'>console.log('Inhalt von username lautet".$username."')</script>";
 	}
 	else
 	{
 	}
 
-	if (isset($_SESSION["username"]) || isset($_COOKIE["username"])|| authenticateuser($username, $password))
+	if (isset($_SESSION["username"]) || isset($_COOKIE["username"]) || authenticateuser($username, $password))
 		{
-			$_SESSION["username"]=$username;
+			if(isset($_POST['Benutzername']))
+			{
+				$_SESSION["username"]=$username;
+			}
+			$username= $_SESSION["username"];
 			if(isset($_POST["remember"]))
 			{
 				setcookie("username", $username, time()+3600*24*365);

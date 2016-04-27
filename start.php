@@ -18,7 +18,8 @@
 <div id=startdiv>
 <?php
 
-	//echo $user;
+	echo "Benutzer ".$_SESSION['username']." ist angemeldet";
+	//echo "test";
  ?>
 	
 
