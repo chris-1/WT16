@@ -81,10 +81,14 @@ function ldap_anmeldung($loginname, $loginpw)
 			}*/
 			else
 			{
-				 $users = new mysqli ('localhost','root','','neuedb');
-				 $result = $users->query('Select * from user');
+				$users = new mysqli ('localhost','root','','neuedb');
 
-				 while($z= $result->fetch_object()) 
+				$SQL = "SELECT *  FROM user  WHERE username='$user'";
+
+
+				 $result = $users->query($SQL);
+
+				 while($z= $result->fetch_object())
 				 	{
 						if($user == $z->username && md5($password) == $z->pwd)
 						{

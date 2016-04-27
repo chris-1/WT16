@@ -33,17 +33,17 @@
 		<div id=phpdiv>
 
 <?php
-
+	include "upload_functions.php";
 
 
 	$users = new mysqli ('localhost','root','','neuedb');
+	$Name=$_SESSION["username"];
+	$SQL = "SELECT *  FROM user  WHERE username='$Name'";
 
 
+	$result = $users->query($SQL);
+	$z= $result->fetch_object();
 
-	$result = $users->query('Select * from user');
-
-		while($z= $result->fetch_object()) 
-	 	{
 
 	 		if(isset($_POST["Benutzername"]))
 			{
@@ -88,7 +88,13 @@
 				$users->query($SQL);
 
 
-			}			
+			}
+
+			echo '<form method="post" action="index.php?i=6" enctype="multipart/form-data">
+      			<input type="hidden" name="MAX_FILE_SIZE" value="1024000">
+     				Filename: <input name="userfile" type="file">
+      			<input type="submit" value="Upload">
+			</form>';
 
 	 		//Benutzer anzeigen
 	 		echo "Benutzername ändern:";
@@ -130,8 +136,6 @@
  			echo '<input type="submit" value="Edit">';	
 			echo "</form>";
 			echo "<br>";			
-
-	 	}
 
  ?>
 
