@@ -37,13 +37,23 @@
 
 
 	$users = new mysqli ('localhost','root','','neuedb');
+
+
+
 	$result = $users->query('Select * from user');
 
 		while($z= $result->fetch_object()) 
 	 	{
+
 	 		if(isset($_POST["Benutzername"]))
 			{
 				$username=$_POST["Benutzername"];
+				$SQL="UPDATE user
+				SET username=$username
+				WHERE username=$z->username";
+				$users->query($SQL);
+
+
 			}
 
 
