@@ -25,6 +25,8 @@
 	
 	
 <?php
+	include "gd_functions.php";
+
 $subdir = "./files/"; 		// Stelle, wo die Datei hinkopiert werden soll 
 							// (hier das Unterverzeichnis "files" zum aktuellen Verzeichnis, wo diese php-Datei liegt
 							// WICHTIG: das Unterverzeichnis muss beim Ausführen des Scripts bereits existieren
@@ -50,76 +52,12 @@ if (isset($_FILES['userfile'])) {							// wurde Datei per POST-Methode upgeload
 		&& ($fileupload['type']=="image/png" || $fileupload['type']=="image/jpeg"))
 		{
     	  move_uploaded_file($fileupload['tmp_name'],$subdir.$fileupload['name']);  // erst dann ins neue Verzeichnis verschieben
-		  gdcreatethumb($subdir.$fileupload['name'], $fileupload['name']);
+		  gdcreatethumb($subdir.$fileupload['name'], $fileupload['name'], 'thumbnails/');
 		}
 	else echo 'Fehler beim Upload';
 }
 
-function gdcreatethumb($file, $name)
-{
-	$imagefile = $file;
-	$imagesize = getimagesize($imagefile);
-	$imagewidth = $imagesize[0];
-	$imageheight = $imagesize[1];
-	$imagetype = $imagesize[2];
-	switch ($imagetype)
-	{
-		// Bedeutung von $imagetype:
-		// 1 = GIF, 2 = JPG, 3 = PNG, 4 = SWF, 5 = PSD, 6 = BMP, 7 = TIFF(intel byte order), 8 = TIFF(motorola byte order), 9 = JPC, 10 = JP2, 11 = JPX, 12 = JB2, 13 = SWC, 14 = IFF, 15 = WBMP, 16 = XBM
-		case 1: // GIF
-			$image = imagecreatefromgif($imagefile);
-			break;
-		case 2: // JPEG
-			$image = imagecreatefromjpeg($imagefile);
-			break;
-		case 3: // PNG
-			$image = imagecreatefrompng($imagefile);
-			break;
-		default:
-			die('Unsupported imageformat');
-	}
-
-	// Maximalausmaße
-	$maxthumbwidth = 150;
-	$maxthumbheight = 100;
-	// Ausmaße kopieren, wir gehen zuerst davon aus, dass das Bild schon Thumbnailgröße hat
-	$thumbwidth = $imagewidth;
-	$thumbheight = $imageheight;
-	// Breite skalieren falls nötig
-	if ($thumbwidth > $maxthumbwidth)
-	{
-		$factor = $maxthumbwidth / $thumbwidth;
-		$thumbwidth *= $factor;
-		$thumbheight *= $factor;
-	}
-	// Höhe skalieren, falls nötig
-	if ($thumbheight > $maxthumbheight)
-	{
-		$factor = $maxthumbheight / $thumbheight;
-		$thumbwidth *= $factor;
-		$thumbheight *= $factor;
-	}
-	// Thumbnail erstellen
-	$thumb = imagecreatetruecolor($thumbwidth, $thumbheight);
-
-
-	imagecopyresampled(
-		$thumb,
-		$image,
-		0, 0, 0, 0, // Startposition des Ausschnittes
-		$thumbwidth, $thumbheight,
-		$imagewidth, $imageheight
-	);
-
-	//header('Content-Type: image/png');
-	//imagepng($thumb);
-	// In Datei speichern
-	$thumbfile = 'thumbnails/'.$name;
-	imagejpeg($thumb, $thumbfile);
-	imagedestroy($thumb);
-}
 ?>
-
 <div id="galeriewindow" class="draggable">
 	
 	<a href=index.php>

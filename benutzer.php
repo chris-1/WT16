@@ -33,7 +33,40 @@
 		<div id=phpdiv>
 
 <?php
-	include "upload_functions.php";
+
+		include "gd_functions.php";
+
+	$subdir = "./files/"; 		// Stelle, wo die Datei hinkopiert werden soll 
+							// (hier das Unterverzeichnis "files" zum aktuellen Verzeichnis, wo diese php-Datei liegt
+							// WICHTIG: das Unterverzeichnis muss beim Ausführen des Scripts bereits existieren
+							// WICHTIG: das Verzeichnis muss die vollen Lese- und Schreibrechte haben
+							// -> in Winscp Verzeichnis selektieren, rechte Maustaste -> Eigenschaften, bei octal 0777 eintragen !!!!!!!
+							
+if (isset($_FILES['picture'])) {							// wurde Datei per POST-Methode upgeloaded
+	$fileupload=$_FILES['picture'];						// diverse Statusmeldungen ausschreiben
+	/*
+	echo "name: ".$fileupload['name']." <br>";				// Originalname der hochgeladenen Datei
+	echo "type: ".$fileupload['type']." <br>";				// Mimetype der hochgeladenen Datei
+	echo "size: ".$fileupload['size']." <br>";				// Größe der hochgeladenen Datei
+	echo "error: ".$fileupload['error']." <br>";			// eventuelle Fehlermeldung
+	echo "tmp_name: ".$fileupload['tmp_name']." <br>";		// Name, wie die hochgeladene Datei im temporären Verzeichnis heißt
+	echo "ziel: ".$subdir.$fileupload['name']." <br>";		// Pfad und Dateiname, wo die hochgeladene Datei hinkopiert werden soll
+	echo "<br>";*/
+	
+	// Prüfungen, ob Dateiupload funktioniert hat
+	if ( !$fileupload['error'] 								// kein Fehler passiert
+	    && $fileupload['size']>0							// Größe > 0	
+    	&& $fileupload['tmp_name']							// hochgeladene Datei hat einen temporären Namen
+    	&& is_uploaded_file($fileupload['tmp_name'])		// nur dann true, wenn Datei gerade erst hochgeladen wurde
+		&& ($fileupload['type']=="image/png" || $fileupload['type']=="image/jpeg"))
+		{
+    	  move_uploaded_file($fileupload['tmp_name'],$subdir.$fileupload['name']);  // erst dann ins neue Verzeichnis verschieben
+		  gdcreatethumb($subdir.$fileupload['name'], $fileupload['name'], 'profile/');
+		  unlink($subdir.$fileupload['name']);
+		}
+	else echo 'Fehler beim Upload';
+	}
+
 				
 
 	$users = new mysqli ('localhost','root','','neuedb');
@@ -47,7 +80,7 @@
 
 			if (isset($_FILES['picture'])) {
 				$fileupload=$_FILES['picture'];
-				$subdir = "./thumbnails/";
+				$subdir = "./profile/";
 				$path = $subdir.$fileupload['name'];
 
 				$SQL="UPDATE user
