@@ -56,6 +56,16 @@
 	{
 		$username=$_POST["Benutzername"];
 		$password=$_POST["Passwort"];
+		$md5 = md5($password);
+		if(isset($_POST["action"]))
+			if($_POST["action"]=="register")
+			{
+				$users = new mysqli ('localhost','root','','neuedb');
+
+				$SQL = "INSERT INTO user (username, pwd, vorname, nachname, email, picture) VALUES ('$username', '$md5', '0', '0', '0', '0')"; 
+
+				$result = $users->query($SQL);
+			}
 		//echo "<script type='text/javascript'>console.log('Inhalt von username lautet".$username."')</script>";
 	}
 	else
