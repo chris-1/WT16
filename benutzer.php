@@ -102,6 +102,17 @@ if (isset($_FILES['picture'])) {							// wurde Datei per POST-Methode upgeloade
 			}
 
 
+	 		if(isset($_POST["Passwort"]))
+			{
+				$pwd=md5($_POST["Passwort"]);
+				$SQL="UPDATE user
+				SET pwd='$pwd'
+				WHERE pwd='$z->pwd'";
+				$users->query($SQL);
+
+
+			}
+
 	 		if(isset($_POST["Vorname"]))
 			{
 				$vorname=$_POST["Vorname"];
@@ -148,6 +159,17 @@ if (isset($_FILES['picture'])) {							// wurde Datei per POST-Methode upgeloade
 
 	 		echo '<form method="post"> ';
   			echo '<input type="text" name="Benutzername"><br>';
+ 			echo '<input type="submit" value="Edit">';	
+			echo "</form>";
+			echo "<br>";
+
+
+			echo "Passwort ändern:";
+			echo "<br>";	 		
+	 		//echo $z->pwd;
+
+	 		echo '<form method="post"> ';
+  			echo '<input type="text" name="Passwort"><br>';
  			echo '<input type="submit" value="Edit">';	
 			echo "</form>";
 			echo "<br>";
