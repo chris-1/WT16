@@ -22,31 +22,31 @@ footer {
     </style>
 	
 <?php
-//phpinfo fenster
-	if(isset($_GET["i"]))
-		if($_GET["i"]<4)
-			include "phpinfo.php";
-		
-//startmenü
-	if(isset($_GET["i"]))
-		if($_GET["i"]==5)
-			include "start.php";
+if(isset($_GET["i"]))
+	if(is_numeric($_GET["i"]))
+		{
+		//phpinfo fenster
+				if($_GET["i"]<4)
+					include "phpinfo.php";
+				
+		//startmenü
+				if($_GET["i"]==5)
+					include "start.php";
 
-//galerie
-	if(isset($_GET["i"]))
-		if($_GET["i"]==6)
-			include "galerie.php";
+		//galerie
+				if($_GET["i"]==6)
+					include "galerie.php";
 
-//benutzer
-	if(isset($_GET["i"]))
-		if($_GET["i"]==7)
-			include "benutzer.php";
+		//benutzer
+				if($_GET["i"]==7)
+					include "benutzer.php";
+		}
+				
 		
-		
-if(isset($_POST["x"]) && isset($_POST["y"]))
+/*if(isset($_POST["x"]) && isset($_POST["y"]))
 	{
 		echo "post!";
-	}
+	}*/
 ?>
 
 	
