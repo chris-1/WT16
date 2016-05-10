@@ -45,7 +45,7 @@
 
 	include "login_functions.php";
 	if(isset($_GET["i"]))
-		if($_GET["i"]==4)
+		if(is_numeric($_GET["i"]) && $_GET["i"]==4)
 		{
 			setcookie("username","", time()-86400);
 			session_destroy();
