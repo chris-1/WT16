@@ -216,37 +216,38 @@ function flip($imagefile, $name){
 	
 
 	
-	if(isset($_GET['show']) && $_GET['show']){
-	if(isset($_GET['f']) && $_GET['f']){
-		if($_GET["f"]==1)
-		{
-			grsc($subdir.$_GET['show'], $_GET['show']);
+	if(isset($_GET['show']) && $_GET['show']) {
+
+		if(isset($_GET['f']) && $_GET['f']) {
+			if($_GET["f"]==1)
+			{
+				grsc($subdir.$_GET['show'], $_GET['show']);
+			}
+			elseif($_GET["f"]==2)
+			{
+				flip($subdir.$_GET['show'], $_GET['show']);
+			}
+			elseif($_GET["f"]==3)
+			{
+				rotate($subdir.$_GET['show'], $_GET['show']);
+			}
+			elseif($_GET["f"]==4)
+			{
+				rotate2($subdir.$_GET['show'], $_GET['show']);
+			}
+			
 		}
-		elseif($_GET["f"]==2)
-		{
-			flip($subdir.$_GET['show'], $_GET['show']);
-		}
-		elseif($_GET["f"]==3)
-		{
-			rotate($subdir.$_GET['show'], $_GET['show']);
-		}
-		elseif($_GET["f"]==4)
-		{
-			rotate2($subdir.$_GET['show'], $_GET['show']);
-		}
-		
+			
+			
+			
+			echo"<img src='files/".$_GET['show']."'>";
+			echo"<a href=\"index.php?i=6&f=1&show=".$_GET['show']."\">Grayscale</a>
+			<a href=\"index.php?i=6&f=2&show=".$_GET['show']."\">Mirror</a>
+			<a href=\"index.php?i=6&f=3&show=".$_GET['show']."\">Rotate</a>
+			<a href=\"index.php?i=6&f=4&show=".$_GET['show']."\">Rotate2</a>";
+
+
 	}
-		
-		
-		
-		echo"<img src='files/".$_GET['show']."'>";
-		echo"<a href=\"index.php?i=6&f=1&show=".$_GET['show']."\">Grayscale</a>
-		<a href=\"index.php?i=6&f=2&show=".$_GET['show']."\">Mirror</a>
-		<a href=\"index.php?i=6&f=3&show=".$_GET['show']."\">Rotate</a>
-		<a href=\"index.php?i=6&f=4&show=".$_GET['show']."\">Rotate2</a>";
-
-
-		}
 	
 	$fileHandle = opendir($subdir);
 
