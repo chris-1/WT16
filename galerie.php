@@ -53,11 +53,145 @@ if (isset($_FILES['userfile'])) {							// wurde Datei per POST-Methode upgeload
 		{
     	  move_uploaded_file($fileupload['tmp_name'],$subdir.$fileupload['name']);  // erst dann ins neue Verzeichnis verschieben
 		  gdcreatethumb($subdir.$fileupload['name'], $fileupload['name'], 'thumbnails/');
+
 		}
 	else echo 'Fehler beim Upload';
 }
 
+
+
+function grsc($imagefile, $name){ 
+    $imagesize = getimagesize($imagefile);
+	$editsuccess = false;
+    $imagetype = $imagesize[2];
+    switch ($imagetype)
+    {
+        // Bedeutung von $imagetype:
+        // 1 = GIF, 2 = JPG, 3 = PNG, 4 = SWF, 5 = PSD, 6 = BMP, 7 = TIFF(intel byte order), 8 = TIFF(motorola byte order), 9 = JPC, 10 = JP2, 11 = JPX, 12 = JB2, 13 = SWC, 14 = IFF, 15 = WBMP, 16 = XBM
+        case 1: // GIF
+            $im = imagecreatefromgif($imagefile);
+            break;
+        case 2: // JPEG
+            $im = imagecreatefromjpeg($imagefile);
+            break;
+        case 3: // PNG
+            $im = imagecreatefrompng($imagefile);
+            break;
+        default:
+            die('Unsupported imageformat');
+    }
+    
+	
+
+	$editsuccess = imagefilter($im, IMG_FILTER_GRAYSCALE);
+	
+
+	
+	$gr = 'files/'.$name;
+	imagejpeg($im, $gr);
+	imagedestroy($im);
+}
+
+function rotate($imagefile, $name){ 
+    $imagesize = getimagesize($imagefile);
+	$editsuccess = false;
+    $imagetype = $imagesize[2];
+    switch ($imagetype)
+    {
+        // Bedeutung von $imagetype:
+        // 1 = GIF, 2 = JPG, 3 = PNG, 4 = SWF, 5 = PSD, 6 = BMP, 7 = TIFF(intel byte order), 8 = TIFF(motorola byte order), 9 = JPC, 10 = JP2, 11 = JPX, 12 = JB2, 13 = SWC, 14 = IFF, 15 = WBMP, 16 = XBM
+        case 1: // GIF
+            $im = imagecreatefromgif($imagefile);
+            break;
+        case 2: // JPEG
+            $im = imagecreatefromjpeg($imagefile);
+            break;
+        case 3: // PNG
+            $im = imagecreatefrompng($imagefile);
+            break;
+        default:
+            die('Unsupported imageformat');
+    }
+    
+	
+
+	$rotate = imagerotate($im, 270, 0);
+	$im = $rotate;
+	$editsuccess = $rotate;
+
+	
+	$rot = 'files/'.$name;
+	imagejpeg($im, $rot);
+	imagedestroy($im);
+}
+
+function rotate2($imagefile, $name){ 
+    $imagesize = getimagesize($imagefile);
+	$editsuccess = false;
+    $imagetype = $imagesize[2];
+    switch ($imagetype)
+    {
+        // Bedeutung von $imagetype:
+        // 1 = GIF, 2 = JPG, 3 = PNG, 4 = SWF, 5 = PSD, 6 = BMP, 7 = TIFF(intel byte order), 8 = TIFF(motorola byte order), 9 = JPC, 10 = JP2, 11 = JPX, 12 = JB2, 13 = SWC, 14 = IFF, 15 = WBMP, 16 = XBM
+        case 1: // GIF
+            $im = imagecreatefromgif($imagefile);
+            break;
+        case 2: // JPEG
+            $im = imagecreatefromjpeg($imagefile);
+            break;
+        case 3: // PNG
+            $im = imagecreatefrompng($imagefile);
+            break;
+        default:
+            die('Unsupported imageformat');
+    }
+    
+	
+
+	$rotate = imagerotate($im, 90, 0);
+	$im = $rotate;
+	$editsuccess = $rotate;
+
+	
+	$rot = 'files/'.$name;
+	imagejpeg($im, $rot);
+	imagedestroy($im);
+}
+
+function flip($imagefile, $name){ 
+    $imagesize = getimagesize($imagefile);
+	$editsuccess = false;
+    $imagetype = $imagesize[2];
+    switch ($imagetype)
+    {
+        // Bedeutung von $imagetype:
+        // 1 = GIF, 2 = JPG, 3 = PNG, 4 = SWF, 5 = PSD, 6 = BMP, 7 = TIFF(intel byte order), 8 = TIFF(motorola byte order), 9 = JPC, 10 = JP2, 11 = JPX, 12 = JB2, 13 = SWC, 14 = IFF, 15 = WBMP, 16 = XBM
+        case 1: // GIF
+            $im = imagecreatefromgif($imagefile);
+            break;
+        case 2: // JPEG
+            $im = imagecreatefromjpeg($imagefile);
+            break;
+        case 3: // PNG
+            $im = imagecreatefrompng($imagefile);
+            break;
+        default:
+            die('Unsupported imageformat');
+    }
+    
+	
+
+	$editsuccess = imageflip($im, IMG_FLIP_BOTH);
+	
+
+	
+	$flip = 'files/'.$name;
+	imagejpeg($im, $flip);
+	imagedestroy($im);
+}
+
 ?>
+
 <div id="galeriewindow" class="draggable">
 	
 	<a href=index.php>
@@ -72,22 +206,59 @@ if (isset($_FILES['userfile'])) {							// wurde Datei per POST-Methode upgeload
 	</form>
 	
 		<?php
-
-	if(isset($_GET['delete']) && $_GET['delete']){
+	
+		if(isset($_GET['delete']) && $_GET['delete']){
 		unlink($subdir.$_GET['delete']);
 		unlink('thumbnails/'.$_GET['delete']);
+
 	}
 	
-	$fileHandle = opendir($subdir);
 	
+
+	
+	if(isset($_GET['show']) && $_GET['show']){
+	if(isset($_GET['f']) && $_GET['f']){
+		if($_GET["f"]==1)
+		{
+			grsc($subdir.$_GET['show'], $_GET['show']);
+		}
+		elseif($_GET["f"]==2)
+		{
+			flip($subdir.$_GET['show'], $_GET['show']);
+		}
+		elseif($_GET["f"]==3)
+		{
+			rotate($subdir.$_GET['show'], $_GET['show']);
+		}
+		elseif($_GET["f"]==4)
+		{
+			rotate2($subdir.$_GET['show'], $_GET['show']);
+		}
+		
+	}
+		
+		
+		
+		echo"<img src='files/".$_GET['show']."'>";
+		echo"<a href=\"index.php?i=6&f=1&show=".$_GET['show']."\">Grayscale</a>
+		<a href=\"index.php?i=6&f=2&show=".$_GET['show']."\">Mirror</a>
+		<a href=\"index.php?i=6&f=3&show=".$_GET['show']."\">Rotate</a>
+		<a href=\"index.php?i=6&f=4&show=".$_GET['show']."\">Rotate2</a>";
+
+
+		}
+	
+	$fileHandle = opendir($subdir);
+
 	while($myFile = readdir($fileHandle)){
 		if($myFile != "." && $myFile != ".."){
 			echo "<p>";
-			echo "<img src='thumbnails/".$myFile."'>
+			echo "<a href=\"index.php?i=6&show=".$myFile."\"><img src='thumbnails/".$myFile."'></a>
 				<a href='index.php?i=6&delete=".$myFile."'>Delete</a>";
 			echo "</p>";
 		}
 	}
+	
 	//var_dump($files);
 
 	?>
