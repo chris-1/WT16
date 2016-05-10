@@ -25,10 +25,12 @@
 	$Name=$_SESSION["username"];
 	$SQL = "SELECT picture  FROM user  WHERE username='$Name'";
 	$result = $users->query($SQL);
-	$z= $result->fetch_object();
+	if($result)
+		$z= $result->fetch_object();
 
 	//echo $z->picture;
-	echo "<img src = $z->picture>";
+	if(isset($z) && $z->picture)
+		echo "<img src = $z->picture>";
  ?>
 	
 
