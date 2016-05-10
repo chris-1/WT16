@@ -40,6 +40,10 @@
 
 
 <?php
+	//prüfe eingeben
+	//preg_match() gibt 1 zurück, falls eine Übereinstimmung zwischen pattern und subject gefunden wurde, 0, falls nicht oder FALSE, falls ein Fehler auftrat.
+	 function check($string) { return preg_match( '/[^a-zA-Z0-9-_]/', $string ); }
+
 	$username=false;
 	$password=false;
 
@@ -53,6 +57,7 @@
 		}
 	
 	if(isset($_POST["Benutzername"]) && isset($_POST["Passwort"]))
+		if(!check($_POST["Benutzername"]) && !check($_POST["Passwort"]))
 	{
 		$username=$_POST["Benutzername"];
 		$password=$_POST["Passwort"];
